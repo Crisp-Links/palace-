@@ -1,0 +1,22 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+<div class="center">
+    <h1>Confirm Delete</h1>
+    <form action="" method="post">
+        
+        {% if form.errors %}
+        {% for key, value in form.errors.items %}
+        <strong>{{ value }}</strong>
+    {% endfor %}
+        {% endif %}
+            
+        {% csrf_token %}
+        <div class="txt_field">
+            Are you sure you want to delete the item with id: <span style="color: red;">{{ obj.id }}?</span>
+        </div>
+      <input type="submit" style="margin-bottom: 1rem;" value="Proceed">
+
+    </form>
+</div>
+    

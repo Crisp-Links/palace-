@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  *, *:after, *:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  h1 {
+    text-align: center;
+    font-family: Tahoma, Arial, sans-serif;
+    color: #06D85F;
+    margin: 100px 0;
+  }
+  
+  .box {
+    width: 40%;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.2);
+    padding: 35px;
+    border: 2px solid #fff;
+    border-radius: 20px/50px;
+    background-clip: padding-box;
+    text-align: center;
+  }
+  
+  
+  .popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 0.2s;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popup .close:hover {
+    color: #06D85F;
+  }
+  .popup .content {
+    max-height: 30%;
+    overflow:hidden;
+  }
+  
+  /*Let's make it appear when the page loads*/
+  .overlay:target:before {
+    display: none;
+  }
+  .overlay:before {
+    content:"";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    z-index: 9;
+  }
+  
+  .overlay .popup {
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: fixed;
+    top: 0;
+    left: 35%;
+    padding: 25px;
+    margin: 70px auto;
+    z-index: 10;
+    -webkit-transition: all 0.6s ease-in-out;
+    -moz-transition: all 0.6s ease-in-out;
+    transition: all 0.6s ease-in-out;
+  }
+  .overlay:target .popup {
+    top: -100%;
+    left: -100%;
+  }
+  
+  @media screen and (max-width: 768px){
+    .box{
+      width: 70%;
+    }
+    .overlay .popup{
+      width: 70%;
+      left: 15%;
+    }
+    .accordion{
+      width: 80%;
+    }
+  }
+  
+  .accordion {
+    background-color: #eee;
+    color: rgb(231, 219, 219);
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1.5rem;
+    transition: 0.4s;
+  }
+  
+  .activee, .accordion:hover {
+    background-color: #ccc;
+  }
+  
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+  
+</style>
+
+
+<div class="card text-center">
+  <div class="dash1">
+    <h3>Welcome Back!</h3>
+    <strong style="color:white; font-size: large;">Name: </strong><small style="color:white; font-size: large;" >{{ request.user.first_name }}</small>
+    <br>
+    <div style="padding-bottom: 0.5rem;">
+      <strong style="color:white; font-size: large;">last login: </strong><small style="color:white; font-size: large;" >{{ request.user.last_login }}</small>
+      
+    </div>
+    
+    
+  </div>
+  
+  
+  
+  
+</div> 
+
+
+
+<div class="row">
+  <div class="col-lg-3 filter-border" style="margin-top: 0.5rem;">
+    
+    <div class="card-body">
+      
+      <div class="d-grid gap-2 col-12 mx-auto d-flex">
+        <a href="{% url 'initiate_payment' %}" type="button" class="btn btn-primary"  type="button">Upload New</a>
+        <a href="{% url 'updateuser' %}" class="btn btn-primary " type="button">Update Profile</a>
+        
+      </div>
+    </div>
+    <button class="accordion text-center" style="background-color: rgb(206, 0, 0);">APPLY FILTERS</button>
+    <a href="{% url 'signout' %}">Logout</a>
+    <div class="panel">          
+      {% for i in region %}     
+      <div class="d-grid gap-lg-0 dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="margin:1rem 0;">  
+        <a class=" btn btn-primary" type="button">{{ i.name }}</a>
+      </div>
+      <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+      </ul>
+      
+      
+      {% endfor %}
+      
+    </div>
+    
+    
+  </div>
+  
+  <div class="col-lg-9">
+    
+    <div class="numContainer">
+      <div class="numP">
+        <p> <marquee scrolldelay="50" direction="left"> About <span style="color:rgb(255, 0, 0);">{{ properties.count }}</span> properties available. Please remember to keep your dashboard clean and organized by deleting dead or unavailabel assets.</marquee></p>
+      </div>
+    </div>
+    
+    <br>
+    
+    <div class="album">
+      
+      <div class="row infinite-container" id="rand">
+        
+        {% for i in properties %}
+        
+        <div  class="col-lg-3 col-6 infinite-item"  style="margin-bottom: 0.5rem;">
+          <img src="{{ i.imageURL }}"  alt="product image" class="thumbnail img-thumbnail">
+          <div>
+            <div class="box-element product text-center">
+              <h6 style="color: white; margin: 0 ; padding: 0;"><strong>{{ i.region }}</strong></h6>
+              <h6 style="color: rgba(255, 255, 255, 0.842); margin: 0 ; padding: 0;">{{ i.district }}</h6>
+              <h6 style="color: rgba(255, 255, 255, 0.829); margin: 0 ; padding: 0;">{{ i.town }}</h6>
+              <div class="d-g rid ga p-2 col- 6 text-center">
+                <a href="{% url 'detail' i.pk %}" class="mybtn btn btn-outline-secondary btn-sm" type="button">Detail</a>
+                <a href="{% url 'delete' i.pk %}" class="mybtn btn btn-danger btn-sm" type="button">Delete</a>
+                <a href="{% url 'update' i.pk %}" class="mybtn btn btn-outline-secondary btn-sm" type="button">Edit</a>
+                
+              </div>
+              
+              
+              <div class="text" style="margin-bottom: 1rem;">
+                <p class="text-center" display: block; >GHC {{ i.get_price|floatformat:2 }} <sup>/year</sup></p>
+              </div>
+            </div> 
+          </div>
+        </div>   
+        {% endfor %}
+      </div>
+    </div>
+    {% if page_obj.has_next %}
+    <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+    {% endif %}
+  </div>
+  
+  
+</div>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'js/infinite.min.js' %}"></script>
+
+
+<script>
+  
+  // var randEl = document.getElementById('rand')
+  // for(var i = randEl.children.length; i>=0; i--){
+  //   randEl.appendChild(randEl.children[Math.random() * i |0])
+  // }
+  
+  
+  // infinite scroll 
+  var infinite = new Waypoint.Infinite({
+    element: $('.infinite-container')[0],
+    handler: function(direction) {
+      
+    },
+    
+    offset: 'bottom-in-view',
+    onBeforePageLoad: function () {
+      $('.spinner-border').show();
+      $('.myalert').hide();
+      
+      
+    },
+    onAfterPageLoad: function () {
+      $('.spinner-border').hide();
+      $('.myalert').show();
+      
+    }   
+  });
+  
+  // infinite scroll END
+  
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+  
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("activee");
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      } 
+    });
+  }
+  
+</script>
+{% endblock content %}
+

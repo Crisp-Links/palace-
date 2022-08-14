@@ -1,0 +1,259 @@
+
+
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<style>
+    .not-visible{
+        visibility: hidden;
+    }
+</style>
+
+<div class="center new-center">
+    <div class="header">
+        <h2  style="display: inline; float: right;">Upload Property</h2>
+        <a href="{% url 'dashbord'%}" class="mybtn btn btn-danger btn-sm" type="button">Go Back</a>
+    </div>
+    <form id="propertyForm"  class="form" method="post" enctype="multipart/form-data">
+        
+        <input type="hidden" name="form_type" value="formA">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-controle">
+                    {% csrf_token %}
+                    <label for="region">Category</label>
+                    {{ form.category }}
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+                </div>
+                <div class="form-controle">
+                    <label for="region">Region</label>
+                    {{ form.region }}
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+                </div>
+                <div class="form-controle">
+                    <label for="district">District</label>
+                    {{ form.district }}
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+                </div>
+                <div class="form-controle">
+                    <label for="Town">Town</label>
+                    {{ form.town }}
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+                </div>
+                <div class="form-controle">
+                    <label for="Locality">Locality</label>
+                    {{ form.address }}
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+                </div>
+                <div class="form-controle">
+                    <label for="district">Price</label>
+                    {{ form.price }}
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+                </div>
+                <div class="form-controle">
+                    <label for="description">Description</label>
+                    <p class="description">Please note that the description must include name(s) of landmarks in the area.</p>
+                    {{ form.description }}
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                
+                <div class="form-controle">
+                    <label for="description">Images</label>
+                    <p class="description">You are to upload three (3) images to impress customers</p>
+                    {{ form.image1 }}
+                    {{ form.image2 }}
+                    {{ form.image3 }}
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+                </div>
+                <div class="form-controle">
+                    <label for="district">Price</label>
+                    <p class="description">Please enter the amenities seperated by a commer and a space.</p>
+                    {{ form.amenities }}
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+                </div>
+            </div>
+            <button class="s-button " type="submit" style="margin-bottom: 1rem;" id="save-btn">Submit</button>
+            
+            <div class="signup_link">
+                Already a member? <a href="{% url 'dashboard' %}">I don't want to anymore</a>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<script>
+    
+    //  django csrftoken cookie function
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    // end of cookie function
+    // hide propertyFormEl
+    
+    // let propertyFormEl = document.getElementById('propertyForm')
+    // propertyFormEl.style.display='none'
+    // const paymentForm = document.getElementById('paymentForm');
+    // paymentForm.style.display='none'
+    
+    
+    // start of payment amount form with ajax
+    // const form1 = document.getElementById('payForm');
+    // form1.addEventListener('submit', (e) => {
+    //     e.preventDefault()
+    //     let amount = document.getElementById('id_amount').value
+    //     console.log('submited');
+        
+    //     fetch("", {
+    //         method: 'POST',
+    //         credentials: 'same-origin',
+    //         headers:{
+    //             'Accept': 'application/json',
+    //             'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
+    //             'X-CSRFToken': csrftoken,
+    //         },
+    //         body: JSON.stringify({'amount':amount}) //JavaScript object of data to POST
+    //     }) 
+    //     .then(response => {
+    //         return response.json() //Convert response to JSON
+    //     })
+    //     .then(data => {
+    //         console.log('Submit success!')
+            
+    //     })
+    // })
+    
+    // end of payment amount form with ajax
+    
+    // dropdown fetch api manipulation start
+    let region_field = document.getElementById('id_region')
+    let district_field = document.getElementById('id_district')
+    
+    region_field.addEventListener("change", getRegionId)
+    
+    function getRegionId(e){
+        console.log(e.target.value)
+        let region_id = e.target.value
+        const data = { id: region_id };
+        let url = "{% url 'getDistrict' %}"
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        
+        
+        .then(data => {
+            console.log('Success:', data);
+            district_field.innerHTML = "<option value='' selected=''>------</option>"
+            for (let i = 0; i < data.length; i++) {
+                district_field.innerHTML += `<option value='${data[i]["id"]}' selected=''>${data[i]["name"]}</option>`
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error)
+        });
+    }
+    // end of dropdown fetch api manupulateion    
+    
+    let payAmount = document.getElementById('id_amount')
+    
+    let payFormEl = document.getElementById('payForm')
+    
+    
+    // payAmount.addEventListener('change',  getAmount)
+    // saveEl.addEventListener('click', )
+    let payEl = document.getElementById('pay')
+    // payEl.addEventListener('click', showButton)
+    // payAmount.addEventListener('change', getAmount)
+    // payAmount.addEventListener('keydown', changeColor)
+    
+    // function getAmount() {
+    //     console.log(e.target.value)
+    //     let amount = e.target.value
+    //     let price = document.getElementById('id_price')
+    //     price.value = amount
+    //     let newAmount = Math.ceil(amount/12)
+    //     console.log(newAmount)
+    //     payAmount.value = newAmount
+    //     price.style.display='none'
+    // }
+    
+    // payFormEl.addEventListener('submit', () => {
+    //     payFormEl.style.display='none'
+    //     // propertyFormEl.style.display='none'
+    //     paymentForm.style.display='block'
+
+
+    // })
+    
+    // paymentForm.addEventListener("submit", payWithPaystack, false);
+ 
+    // function payWithPaystack(e) {
+    //     e.preventDefault();
+    //     let handler = PaystackPop.setup({
+    //         key: '{{ paystack_public_key }}', // Replace with your public key
+    //         email: "{{ payment.email }}",
+    //         currency : 'GHS',
+    //         amount: "{{ payment.amount_value}}",
+    //         ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+    //         // label: "Optional string that replaces customer email"
+    //         onClose: function(){
+    //                 alert('Window closed.');
+    //             },
+    //             callback: function(response){
+    //                 let message = 'Payment complete! Reference: ' + response.reference;
+    //                 setTimeout (function(){
+    //                     window.location.href = ""
+
+    //                 }, 2000);
+    //             // alert(message);
+    //         }
+    //     });
+    //     handler.openIframe();
+    // }
+
+</script>
+<script src="{% static 'js/main.js' %}"></script>

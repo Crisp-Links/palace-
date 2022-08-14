@@ -1,0 +1,154 @@
+
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+<div class="">
+    <div class="center new-center">
+        
+        <div class="header">
+            <h2  style="display: inline; float: right;">Update Property</h2>
+            <a href="{{ request.META.HTTP_REFERER }} " class="mybtn btn btn-danger btn-sm" type="button">Go Back</a>
+        </div>
+        <form id="form" class="form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-controle">
+                        <label for="region">Region</label>
+                        {{ form.region }}
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
+                    <div class="form-controle">
+                        <label for="district">District</label>
+                        {{ form.district }}
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
+                    <div class="form-controle">
+                        <label for="Town">Town</label>
+                        {{ form.town }}
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
+                    <div class="form-controle">
+                        <label for="Locality">Locality</label>
+                        {{ form.address }}
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
+                    <div class="form-controle">
+                        <label for="district">Price</label>
+                        {{ form.price }}
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
+                    <div class="form-controle">
+                        <label for="description">Description</label>
+                        <p class="description">Please note that the description must include name(s) of landmarks in the area.</p>
+                        {{ form.description }}
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    
+                    <div class="form-controle">
+                        <label for="description">Images</label>
+                        <br>
+                        {{ form.image1 }}
+                        {{ form.image2 }}
+                        {{ form.image3 }}
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <small>Error message</small>
+                    </div>
+                    <div class="form-controle">
+                        <label for="amenities">Amenities</label>
+                        <div class="row">                           
+                            <div class=" ">
+                                {% for i in form.amenities %}    
+                                <span class="card-o">
+                                    {{ i }}
+                                    <i class="fas fa-check-circle"></i>
+                                    <i class="fas fa-question-circle"></i>
+                                    <small>Error message</small>
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                {{ form.messages }}
+                <button class="s-button" type="submit" style="margin-bottom: 1rem;">Submit</button>
+                <div class="signup_link">
+                    Already a member? <a href="{% url 'login' %}">Login</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    
+    
+    let region_field = document.getElementById('id_region')
+    let district_field = document.getElementById('id_district')
+
+    region_field.addEventListener("change", getRegionId)
+    
+    function getRegionId(e){
+        console.log(e.target.value)
+        let region_id = e.target.value
+        const data = { id: region_id };
+        let url = "{% url 'getDistrict' %}"
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+
+
+        .then(data => {
+            console.log('Success:', data);
+            district_field.innerHTML = "<option value='' selected=''>------</option>"
+            for (let i = 0; i < data.length; i++) {
+                district_field.innerHTML += `<option value='${data[i]["id"]}' selected=''>${data[i]["name"]}</option>`
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error)
+        });
+    }
+</script>
