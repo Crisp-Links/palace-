@@ -1,0 +1,17 @@
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+
+<div class="center">
+    <h1>Registration Successfull!</h1>
+    <hr>
+    <p style="margin: 1rem;"> You have successfully completed your registration.
+        Please check your email for the confirmation link.
+        brightpalace.com
+    </p>
+    <div class="signup_link">
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+</div>

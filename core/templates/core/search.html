@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% include 'navbar.html' %}
+
+
+<div class="container-fluid">
+    <div class="row">
+        {% include 'sidebar.html' %}
+        
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 ">
+            <div class="topBanner d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2 ">You searched for <span style="color: yellow;">{{ searched }}</span></h1>
+                
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                        <span data-feather="calendar"></span>
+                        This week
+                    </button>
+                </div>
+                
+            </div>
+            
+            <div class="">
+                
+                {% if searched %}
+                
+                <div class="numContainer">
+                    <div class="numP">
+                        <p> <marquee scrolldelay="50" direction="left"> <span style="color:rgb(255, 0, 0);">{{ properties.count }}</span> asset(s) available for your keyword</marquee></p>
+                    </div>
+                </div>
+                
+                <div class="album">    
+                    <div class="row infinite-container" id="rand">
+                        
+                        {% for i in properties %}
+                        
+                        <div  class="col-lg-3 col-6 infinite-item"  style="margin-bottom: 0.5rem;">
+                            <img src="{{ i.imageURL }}"  alt="product image" class="thumbnail img-thumbnail">
+                            <div>
+                                <div class="box-element product text-center">
+                                    <h6 style="color: white; margin: 0 ; padding: 0;"><strong>{{ i.region }}</strong></h6>
+                                    <h6 style="color: rgba(255, 255, 255, 0.842); margin: 0 ; padding: 0;">{{ i.district }}</h6>
+                                    <h6 style="color: rgba(255, 255, 255, 0.829); margin: 0 ; padding: 0;">{{ i.town }}</h6>
+                                    <div class="d-grid gap-2 col-6 mx-auto">
+                                        <a href="{% url 'detail' i.pk %}" class="mybtn btn btn-outline-secondary btn-sm" type="button">Details</a>
+                                    </div>
+                                    
+                                    
+                                    <div class="text" style="margin-bottom: 1rem;">
+                                        <p class="text-center" display: block; >GHC {{ i.get_price|floatformat:2 }} <sup>/year</sup></p>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>   
+                        {% endfor %}
+                    </div>
+                </div>
+                
+            </div>    
+            <!-- <footer class="footer mt-auto py-3 foot">
+                <div class="mycontai ner contaier">
+                    <span class="text-muted ">Place sticky footer content here.</span>
+                </div>
+            </footer> -->
+        </main>
+    </div>
+</div>
+
+{% else %}
+<h6 class="topBannaer">Hey What's that again?</h6>
+{% endif %}
+
+{% endblock content %}

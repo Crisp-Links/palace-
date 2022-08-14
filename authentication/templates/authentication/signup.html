@@ -1,0 +1,61 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+<div class="center" >
+	<div class="header">
+		<h2>Create Account</h2>
+	</div>
+	<form id="form" class="form" method="post">
+		{% csrf_token %}
+		<div class="form-controle">
+			<label for="first name">First Name</label>
+			{{ form.first_name }}
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<div class="form-controle">
+			<label for="last name">Last Name</label>
+			{{ form.last_name }}
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<div class="form-controle">
+			<label for="email">Email</label>
+			{{ form.email }}
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<div class="form-controle">
+			<label for="last name">Phone</label>
+			{{ form.phone }}
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<div class="form-controle">
+			<label for="password">Password</label>
+			{{ form.password1 }}
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<div class="form-controle">
+			<label for="username">Password check</label>
+			{{ form.password2 }}
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<div class="btn-c ">
+			<button class="s-button" type="submit" style="margin-bottom: 1rem;">Submit</button>
+		</div>
+		<div class="signup_link" style="padding-bottom: 2rem;">
+			Already a member? <a href="{% url 'login' %}">Login</a>
+		</div>
+	</form>
+</div>
+<script src="{% static 'js/main.js' %}"></script>
+

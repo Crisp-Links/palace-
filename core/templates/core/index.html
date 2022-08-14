@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- <style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+</style> -->
+
+
+{% include 'navbar.html' %}
+
+<div class="container-fluid">
+  <div class="row">
+    {% include 'sidebar.html' %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="topBanner d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2 animate-charcter"> Over {{ property.count }} assets to choose from.</h1>
+        
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+          </button>
+        </div>
+        
+      </div>
+      <div id="carouselExampleSlidesOnly" class="carousel slide " data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{% static '/brightpalace.png' %}" class=" d-block card w-100 thumbnail img-thumbnail" alt="...">
+          </div>
+          
+          {% for c in carocel %}
+          <div class="carousel-item img-thumbnail">
+            <img src="{{ c.image.url }}" class="d-block w-100" alt="carocel images">
+          </div>  
+          {% endfor %}
+        </div>
+      </div>
+      {% for cat in category %}
+      <div class="mycontainer">
+        <div class="hs__wrapper">
+          <div class="hs__header">
+            <h2 class="hs__headline">{{ cat.name }} 
+            </h2>
+            <a href="{% url 'home' cat.id %}" class="cat-link">view more</a>
+            <div class="hs__arrows">
+              <a class="arrow disabled arrow-prev"></a>
+              <a class="arrow arrow-next"></a></div>
+            </div>
+            <ul class="hs">
+              
+              {% for property in cat.property_set.all %}
+              <li class="hs__item"> 
+                <a class="hs__item__image__wrapper" href="{% url 'detail' property.pk %}">
+                <div >
+                  <img class="hs__item__image" src="{{ property.imageURL }}" alt=""/>
+                </div>
+              </a>
+                <div class="hs__item__description ">
+                  <span class="hs__item__title ">GHC {{ property.price|floatformat:2 }}</span>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+            
+          </div>
+        </div>
+        
+        {% endfor %}
+ 
+        <footer class="footer mt-auto py-3 foot">
+          <div class="mycontai ner contaier">
+            <span class="text-muted ">Place sticky footer content here.</span>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  {% endblock content %}
+  
+  

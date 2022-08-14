@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="f-heading" style="padding-bottom: 1rem;">
+  <h3>Asset details</h3>
+</div>
+<div class="col-6" style="margin: 1rem 0;">
+  <a href=" {{ request.META.HTTP_REFERER }} " class="btn btn-outline-secondary" type="button">Go Back</a>
+</div>
+<div class="card ">
+  <div class="card-header text-center">
+    Asset details
+  </div>
+  <div class="card-body">
+    <div class="row">
+      
+      <div class=" col-lg-6">
+        <div id="carouselExampleInterval" class=" card carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active ">
+              <img src="{{ prop.image1.url }}" class="d-block w-100 " alt="image 1">
+            </div>
+            <div class="carousel-item">
+              <img src="{{ prop.image2.url }}" class="d-block w-100 thumbnail" alt="image2">
+            </div>
+            <div class="carousel-item" >
+              <img src="{{ prop.image3.url }}" class="d-block w-100" alt="image 3">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <div>
+          <br>
+          <hr>
+          <div class="text-center">
+            <div class="card inCaro col-lg-3 col-3">
+              <img src="{{ prop.image1.url }}" class="d-block w-100 lightbox_trigger" alt="image 1"></a>
+            </div>
+            <div class="card inCaro col-lg-3 col-3">
+              <img src="{{ prop.image2.url }}" class="d-block w-100 " alt="image 1">
+            </div>
+            <div class="card inCaro col-lg-3 col-3">
+              <img src="{{ prop.image3.url }}" class="d-block w-100 " alt="image 1">
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="fine-details"><h3>Description</h3></div>
+
+        <p class="card-text">{{ prop.description }}</p>
+        <table>
+          <div class="fine-details"><h3>Fine Details</h3></div>
+          
+          <tr>
+            <td>Serial</td>
+            <td>{{ prop.id }}</td>
+          </tr>
+          
+          <tr>
+            <td>Upload date</td>
+            <td>{{ prop.upload_date|date }}</td>
+          </tr>
+          <tr>
+            <td>Region</td>
+            <td>{{ prop.region }}</td>
+          </tr>
+          
+          <tr>
+            <td>District</td>
+            <td>{{ prop.district }}</td>
+          </tr>
+
+          <tr>
+            <td>Locality</td>
+            <td>{{ prop.address }}</td>
+          </tr>
+
+          <tr>
+            <td>Town</td>
+            <td>{{ prop.town }}</td>
+          </tr>
+
+          <tr>
+            <td>Price</td>
+            <td>{{ prop.price }}</td>
+          </tr>
+          
+          <tr>
+            <td>Amenities</td>
+            <td>
+              <ul class="amenity-list">
+                
+                {% for i in prop.amenities.all %}
+                <li>{{ i.name }}</li>
+                {% empty %}
+                <p>No amenities listed by host</p>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Contact</td>
+            <td>{{ prop.user.phone }}</td>
+          </tr>
+
+          <tr>
+            <td>Email</td>
+            <td>{{ prop.user.email }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <br>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <a href="{% url 'about' %}" class="btn btn-success" type="button">Report issues</a>
+    </div>
+
+
+  </div>
+</div>
+
+{% endblock content %}
