@@ -1,0 +1,46 @@
+
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+{% comment %}
+<link rel="stylesheet" href="{% static 'css/bootsrap.min.css' %}">
+    
+{% endcomment %}
+    
+
+
+<div class="center">
+    <h1>Make Payment</h1>
+    <form method="post">
+        <div class="signup_link" style="padding-bottom: 2rem; font-size: larger;">
+            <div class="pass">STEP 1</div>
+            We charge you an amount of <span style="font-style: italic; color: rgb(156, 16, 16);">GHC 20.00</span> to upload your content to afika
+        </div>
+        {% csrf_token %}
+        <div>
+            {% for message in messages %}
+        </div>
+        <p class="message">{{ message }}</p>
+        {% endfor %}
+        <div class="txt_field" id="inhide">
+            {{ payment_form.amount}}
+
+            <span></span>
+            <label>Amount here...</label>
+        </div>
+        <input type="submit" value="I Agree">
+        <div class="signup_link" style="padding-bottom: 2rem;">
+            If not <a href="{% url 'dashbord' %}">Go Back</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    let inhide = document.getElementById('inhide')
+    let amount = document.getElementById('id_amount')
+    amount.value = Number(20)
+    inhide.style.display='none'
+    
+</script>

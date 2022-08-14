@@ -1,0 +1,106 @@
+{% load static %}
+
+
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+{% comment %}
+    
+<link rel="stylesheet" href="{% static 'css/bootsrap.min.css' %}">
+{% endcomment %}
+    
+
+
+<div class="center">
+    <h1>Make Payment</h1>
+    <form method="" id="paymentForm">
+        <div class="signup_link" style="padding-bottom: 2rem; font-size: larger;">
+            <div class="pass">STEP 2</div>
+            <strong>You are about makeing a payment of </strong> <span style="font-style: italic; color: rgb(156, 16, 16);">GHC {{ payment.amount }}.00</span>
+        </div>
+        <div class="signup_link" style="padding-bottom: 2rem; font-size: larger;">
+            
+            Get your credentials ready to confirm and wait some few seconds for the 
+            pay button. <strong>You will be redirected when payment is done.</strong>
+        </div>
+        {% csrf_token %}
+        {% for message in messages %}
+        <div>
+            <p class="message">{{ message }}</p>
+        </div>
+        {% endfor %}
+        <script src="https://js.paystack.co/v1/inline.js"></script> 
+        <input type="submit" id="django-paystack-button" value="Pay">
+        
+        <!-- <input type="submit" value="I Agree"> -->
+        <div class="signup_link" style="padding-bottom: 2rem;">
+            If not <a href="{% url 'dashbord' %}">Go Back</a>
+        </div>
+    </form>
+</div>
+
+
+
+
+<script>
+    // paymentForm.addEventListener("submit", payWithPaystack, false);
+    // function payWithPaystack(){
+        
+        //     let currency = 'GHS';
+        //     let plan = '';
+        //     let ref = "{{ payment.ref }}";
+        //     let obj = {
+            //         key: "{{ paystack_public_key }}",
+            //         email: "{{ payment.email }}",
+            //         amount: "{{ payment.amount_value}}",
+            //         ref: ref,
+            //         callBack: function(response) {
+                //             window.location.href = "{% url 'verify-payment' payment.ref %}";
+                //         }
+                //     }
+                //     if (Boolean(currency)){
+                    //         obj.currency = currency.toUpperCase()
+                    //     }
+                    //     if (Boolean(plan)){
+                        //         obj.plan = plan;
+                        //     }
+                        //     var handler = PaystackPop.setup(obj);
+                        //     handler.openIframe();
+                        
+                        // }   
+                        
+                        
+                        const paymentForm = document.getElementById('paymentForm');
+                        paymentForm.addEventListener("submit", payWithPaystack, false);
+                        function payWithPaystack(e) {
+                            e.preventDefault();
+                            let ref = "{{ payment.ref }}";
+                            
+                            let handler = PaystackPop.setup({
+                                key: '{{ paystack_public_key }}', // Replace with your public key
+                                email: "{{ email }}",
+                                currency : 'GHS',
+                                amount: "{{ payment.amount_value}}",
+                                ref: ref ,// generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+                                phone: '{{ phone }}',
+                                first_name: '{{first_name}}',
+                                last_name: '{{last_name}}',
+                                
+                                // label: "Optional string that replaces customer email"
+                                onClose: function(){
+                                    window.location.href = "{% url 'dashbord' %}"
+                                },
+                                callback: function(response){
+                                    let message = 'Payment complete! Reference: ' + response.reference;
+                                    // setTimeout (function(){
+                                        window.location.href = "{% url 'verify-payment' payment.ref %}"
+                                        
+                                        // }, 1000);
+                                        // alert(message);
+                                    }
+                                });
+                                handler.openIframe();
+                            }
+                        </script>
