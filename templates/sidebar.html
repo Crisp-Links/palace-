@@ -1,0 +1,104 @@
+
+{% block sidebar %}
+{% load static %}
+
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active disabled" aria-current="page" href="#">
+                    <span data-feather="home"></span>
+                    FILTER ASSETS
+                </a>
+            </li>
+
+            <li class="nav-item">
+               
+                <a class="nav-link" href="{% url 'index' %}">
+                    <span data-feather="shopping-cart"></span>
+                    Home<span style="float: right;">{{properties.count}}</span>
+                </a>
+            </li>
+            
+            {% for i in regions %}
+
+            <li class="nav-item">
+               
+               <a class="nav-link" href="{% url 'region-filter' i.id %}?q={{ i.name }} %}">
+                   <span data-feather="shopping-cart"></span>
+                   {{ i.name }}<span style="float: right;">{{i.property_set.all.count}}</span>
+               </a>
+           </li>
+            
+            {% endfor %}
+          
+        </ul>
+
+        
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1">
+            <span class="more">MORE</span>
+            <a class="link-secondary" href="#" aria-label="Add a new report">
+                <span data-feather="plus-circle"></span>
+            </a>
+        </h6>
+        <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">
+                    <span data-feather="file-text"></span>
+                    Contact Us
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">
+                    <span data-feather="file-text"></span>
+                    About Us
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <span data-feather="file-text"></span>
+                    FAQ
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <span data-feather="file-text"></span>
+                    Give Us Feedback
+                </a>
+            </li>
+        </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1">
+            <span class="more">OUR SOCIALS</span>
+            <a class="link-secondary" href="#" aria-label="Add a new report">
+                <span data-feather="plus-circle"></span>
+            </a>
+        </h6>
+        <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">
+                    <span data-feather="file-text"></span>
+                </a>                
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" >
+                    <span data-feather="file-text"></span>
+                </a>                
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">
+                    <span data-feather="file-text"></span>
+                </a>                
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">
+                    <span data-feather="file-text"></span>
+                </a>                
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+
+{% endblock sidebar %}
+

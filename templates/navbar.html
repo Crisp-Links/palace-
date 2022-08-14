@@ -1,0 +1,85 @@
+<!-- <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+  
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'index' %}">Rental</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav m-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Regions
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            
+            {% for i in region %}
+            <li><a class="dropdown-item" href="#">{{ i.name }}</a></li>
+            {% endfor %}
+            
+          </ul>
+          
+        </li>
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="">Favourites
+            <span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger">
+              99+
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="{% url 'about' %}">About Us</a>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</nav> -->
+
+{% load static %}
+
+{% block navbar %}
+<style>
+  .searchform2{
+    width: 100%;
+    margin: 0;
+    display: flex;
+    border-bottom: 0.1rem solid rgb(197, 8, 8);
+  }
+  
+  .navbar-brand img{
+    width: 2rem;
+  }
+</style>
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a href="{% url 'index' %}" class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"> <img  alt=""> Bright <span style="color: yellow;">Palace</span></a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  
+  <div class="input-group ">
+    <form action="{% url 'search-result' %}" method="post" class="searchform2">
+      {% csrf_token %}
+      <input autocomplete="given" class="form-control form-control-dark " id="search" name="searched" type="search" placeholder="Search by region, district or town name" aria-label="Search">
+      <span id="searchItems"></span>
+      <button id="search-button" class="btn btn-secondary fasearch" type="submit">
+        <i class="fa fa-search "></i>
+      </button>
+      
+      
+    </form>
+    
+  </div>
+  
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="{% url 'login' %}">Agents Only</a>
+    </div>
+  </div>
+</header>
+
+{% endblock navbar %}

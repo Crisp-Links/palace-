@@ -1,0 +1,1 @@
+web: gunicorn myrent.wsgi --log-file -

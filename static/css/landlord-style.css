@@ -1,0 +1,40 @@
+body{
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.dash1{
+    background: linear-gradient(120deg,#2980b9, #8e44ad);
+}
+
+.dash1 h3{
+    color: #fff;
+    font-size: 4rem;
+    text-align: center;
+}
+
+.p-btn{
+    background: #2980b9;
+    color: #fff;
+    border: 0.2rem solid #2980b9;
+    border-radius: 0.1rem;
+}
+.p-btn:hover{
+    background: #0d60cc;
+    color: #fff;
+    border: none;
+}
+
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+  }
