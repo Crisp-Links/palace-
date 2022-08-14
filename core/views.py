@@ -59,8 +59,8 @@ def category(request):
     category = Category.objects.all()[:10]
     regions = Region.objects.filter()
     carocel = Carocel.objects.all()
-    filterForm = PropertyFilter()
-    context = {'filterForm':filterForm, 'carocel':carocel, 'property':property,'category': category, 'regions':regions}
+    
+    context = {'carocel':carocel, 'property':property,'category': category, 'regions':regions}
     return render(request, 'core/index.html', context)
 
 def cat_item(request, pk):
