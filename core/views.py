@@ -1,4 +1,4 @@
-from .filters import PropertyFilter
+
 from multiprocessing import context
 from django.core.paginator import Paginator
 from random import random
@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.views.generic import ListView
-from urllib3 import Retry
+
 from .models import *
 
 
