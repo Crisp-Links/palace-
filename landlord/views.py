@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from authentication.forms import CustomUserChangeForm
 from core.models import *
 from .forms import PropertyForm
-from authentication.models import *
+#from authentication.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserChangeForm
 from pay.forms import *
